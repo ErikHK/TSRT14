@@ -200,7 +200,7 @@ for i=1:88,
     hold on
 end
 
-%% 7.2.6 Tracking
+%% 7.2.6 Tracking CV a)
 clear all
 dt = 0.5; %time between measurements
 Fs = 1/dt;
@@ -234,4 +234,103 @@ plot(x_CV.y(:,1), x_CV.y(:,2));
 hold on
 plot(x(1,:), x(2,:), 'r');
 
-%%
+%% 7.2.6 Tracking CV b)
+clear all
+dt = 0.5; %time between measurements
+Fs = 1/dt;
+
+% [x,y,vx,vy]
+model_matrix = [1 0 dt/2 0;0 1 0 dt/2;0 0 1 0;0 0 0 1];
+
+robot_start = [0.085; 0.465];
+mic_place = [0 0.50 0 0.99 0.61 0.99 1.22 0.99 1.22 0 0.60 0 0 0];
+mic_place_2 = [0 0.50; 0 0.99; 0.61 0.99; 1.22 0.99; 1.22 0; 0.60 0; 0 0]';
+addpath('../toolkit');
+%load('all_around.mat')
+load('all_around.mat');
+tphat = tphat*343; %seconds to meter
+
+x = tdoa_localisation_one_reference(tphat, 0);
+
+model = exnl('cv2d'); %linear velocity
+model.x0 = [robot_start; 0; 0];
+Q = [0 0 0 0; 0 0 0 0; 0 0 0.004 0; 0 0 0 0.004];
+P0 = [1 0 0 0; 0 1 0 0; 0 0 1 0; 0 0 0 1];
+model.px0 = P0;
+model.pe = [.2 0;0 .3]; %ÄNDRA DETTA FÖR GUDS SKULL!!!
+y = sig(x', Fs);
+%x_CV = ekf(model, y, zeros(4,4), Q, P0);
+x_CV = ekf(model, y);
+SFlabCompEstimGroundTruth(x_CV.y', mic_place_2);
+%plot(x_CV)
+figure;
+plot(x_CV.y(:,1), x_CV.y(:,2));
+hold on
+plot(x(1,:), x(2,:), 'r');
+%% Tracking CT a)
+clear all
+dt = 0.5; %time between measurements
+Fs = 1/dt;
+
+% [x,y,vx,vy]
+model_matrix = [1 0 dt/2 0;0 1 0 dt/2;0 0 1 0;0 0 0 1];
+
+robot_start = [0.085; 0.465];
+mic_place = [0 0.50 0 0.99 0.61 0.99 1.22 0.99 1.22 0 0.60 0 0 0];
+mic_place_2 = [0 0.50; 0 0.99; 0.61 0.99; 1.22 0.99; 1.22 0; 0.60 0; 0 0]';
+addpath('../toolkit');
+%load('all_around.mat')
+load('all_around.mat');
+tphat = tphat*343; %seconds to meter
+
+x = tdoa_localisation(tphat, 0);
+
+model = exnl('ctcv2d'); %linear velocity
+model.x0 = [robot_start; 0; 0; 0];
+Q = [0 0 0 0; 0 0 0 0; 0 0 0.004 0; 0 0 0 0.004];
+P0 = [1 0 0 0 0; 0 1 0 0 0; 0 0 1 0 0; 0 0 0 1 0;0 0 0 0 1];
+model.px0 = P0;
+model.pe = [.2 0;0 .3]; %ÄNDRA DETTA FÖR GUDS SKULL!!!
+y = sig(x', Fs);
+%x_CV = ekf(model, y, zeros(4,4), Q, P0);
+x_CV = ekf(model, y);
+SFlabCompEstimGroundTruth(x_CV.y', mic_place_2);
+%plot(x_CV)
+figure;
+plot(x_CV.y(:,1), x_CV.y(:,2));
+hold on
+plot(x(1,:), x(2,:), 'r');
+
+%% Tracking CT b)
+clear all
+dt = 0.5; %time between measurements
+Fs = 1/dt;
+
+% [x,y,vx,vy]
+model_matrix = [1 0 dt/2 0;0 1 0 dt/2;0 0 1 0;0 0 0 1];
+
+robot_start = [0.085; 0.465];
+mic_place = [0 0.50 0 0.99 0.61 0.99 1.22 0.99 1.22 0 0.60 0 0 0];
+mic_place_2 = [0 0.50; 0 0.99; 0.61 0.99; 1.22 0.99; 1.22 0; 0.60 0; 0 0]';
+addpath('../toolkit');
+%load('all_around.mat')
+load('all_around.mat');
+tphat = tphat*343; %seconds to meter
+
+x = tdoa_localisation_one_reference(tphat, 0);
+
+model = exnl('ctcv2d'); %linear velocity
+model.x0 = [robot_start; 0; 0; 0];
+Q = [0 0 0 0; 0 0 0 0; 0 0 0.004 0; 0 0 0 0.004];
+P0 = [1 0 0 0 0; 0 1 0 0 0; 0 0 1 0 0; 0 0 0 1 0;0 0 0 0 1];
+model.px0 = P0;
+model.pe = [.2 0;0 .3]; %ÄNDRA DETTA FÖR GUDS SKULL!!!
+y = sig(x', Fs);
+%x_CV = ekf(model, y, zeros(4,4), Q, P0);
+x_CV = ekf(model, y);
+SFlabCompEstimGroundTruth(x_CV.y', mic_place_2);
+%plot(x_CV)
+figure;
+plot(x_CV.y(:,1), x_CV.y(:,2));
+hold on
+plot(x(1,:), x(2,:), 'r');

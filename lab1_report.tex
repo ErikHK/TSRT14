@@ -124,7 +124,18 @@ A constant velocity (CV) model and a constant acceleration (CA) model was used f
 \begin{align*}
 x = [x, y, v_x, v_y]^T
 \end{align*}
+\[
+  \bar{x}[k+1] = 
+  \begin{bmatrix}
+    1 & 0 & \frac{\Delta T}{2} & 0 \\
+    0 & 1 & 0 & \frac{\Delta T}{2} \\
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 1 \\
+  \end{bmatrix}
+  \bar{x}[k] + \bar{v}
+\]
 
+where $\Delta T = 0.5$ s.
 
 \subsection{Sensitivity analysis}
 
