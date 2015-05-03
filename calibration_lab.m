@@ -14,16 +14,20 @@ end
 mic_bias = zeros(nr_of_mics,1);
 mic_var = zeros(nr_of_mics,1);
 for i=[1:nr_of_mics]
+%k = 1;
+%for i=[2, 6]
     mic_bias(i) = mean(e(:,i));
     mic_var(i) = var(e(:,i));
     [N, l] = hist(e(:,i),20);
     Wb= l(2)-l(1); %Bin width
     Ny = nr_of_samples; %Nr of samples
-    %figure(i)
-    %bar(l, N/(Ny*Wb));
-    %hold on;
+    figure(i)
+    %subplot(2,1,k)
+    bar(l, N/(Ny*Wb));
+    hold on;
     pe = ndist(mic_bias(i), mic_var(i));
-    %plot(pe);
+    plot(pe);
+    %k=k+1;
 end
 
 %% 7.2.2 signal modeling
@@ -188,10 +192,10 @@ end
 
 for i=1:88,
     [shat, xhat] = nls(s, sig(yy(i,:)), 'thmask', zeros(s.nn(4) ,1));
-    %sig_yy = sig(y_i);
+    
     x(:,i) = shat.x0;
     x_cov(:,:,i) = cov(shat.px0);
-    s.x0 = shat.x0;
+    %s.x0 = shat.x0;
     plot(shat, 'conf', 90)
     hold on
 end
@@ -226,8 +230,8 @@ x_CV = ekf(model, y);
 SFlabCompEstimGroundTruth(x_CV.y', mic_place_2);
 %plot(x_CV)
 figure;
-plot(x_CV.y(:,1), x_CV.y(:,2))
+plot(x_CV.y(:,1), x_CV.y(:,2));
 hold on
-plot(x(1,:), x(2,:), 'r')
+plot(x(1,:), x(2,:), 'r');
 
 %%
