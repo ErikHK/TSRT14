@@ -56,15 +56,15 @@ end
 s1.pe = diag(y_var);
 s2.plot;
 s1.plot;
-%% 7.2.4
+%% 7.2.4 configuration analysis
 %R = diag(y_var);
 %crlb(s1);
 
 
 clear all
 addpath('../toolkit');
+load('one_side.mat')
 %load('all_around.mat')
-load('all_around.mat')
 gridd = 1:20;
 grid_pos = (gridd-5)*.1;
 
@@ -84,7 +84,7 @@ end
 
 s2 = exsensor('tdoa2',7,1,2);
 s2.x0 = robot_start;
-s2.th = mic_place_2;
+s2.th = mic_place_1;
 
 mic_bias = zeros(nr_of_mics,1);
 mic_var = zeros(nr_of_mics,1);
@@ -132,7 +132,7 @@ end
 
 figure(2)
 %V(1, 10) = 1000000;
-contour(grid_pos, grid_pos, V', 10)
+contour(grid_pos, grid_pos, V', 50)
 
 %% 7.2.5 Localisation, NLS Gauss
 clear all

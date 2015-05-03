@@ -16,16 +16,17 @@
 
 \begin{document}
 \maketitle
+\newpage
 \section{Data collection}
-The data for this lab was gathered at a scheduled 30-minute session, where the task was to arrange seven microphones in two fundamentally different configurations chosen by the group, and record the sound emitted from a robot which followed a drawn out path in a stage, in order to localise it. The first configuration chosen was to evenly space the microphones around the stage as pictured in Figure 1. The second was to evenly space them on just one side of the stage as shown in Figure 2.\\
+The data for this lab was gathered at a scheduled 30-minute session, where the task was to arrange seven microphones in two fundamentally different configurations chosen by the group, and record the sound emitted from a robot which followed a drawn out path in a stage, in order to localise it. The first configuration chosen was to evenly space the microphones around the stage as pictured in Figure 1. The second was to evenly space them on just one side of the stage as shown in Figure 2.
 \begin{figure}[h!]
 \centering
-\includegraphics[width=350pt]{microphone_configuration_1.png}
+\includegraphics[width=\textwidth]{microphone_configuration_1.png}
 \caption{First microphone configuration, believed to be the better one.}
 \end{figure}
 \begin{figure}[h!]
 \centering
-\includegraphics[width=350pt]{microphone_configuration_2.png}
+\includegraphics[width=\textwidth]{microphone_configuration_2.png}
 \caption{Second microphone configuration, believed to be the worse one.}
 \end{figure}
 \newpage
@@ -44,7 +45,7 @@ This was then compared to a corresponding normal distribution, as shown for two 
 
 \begin{figure}
 \begin{center}
-  \includegraphics{calibration_ndist_2_and_6.png}
+  \includegraphics[width=\textwidth]{calibration_ndist_2_and_6.png}
   \caption{Spatial error for two of the microphones, 2 and 6 from the top.}
   \end{center}
 \end{figure}
@@ -52,10 +53,25 @@ This was then compared to a corresponding normal distribution, as shown for two 
 
 \subsection{Signal modeling}
 
-\subsection{Experiments}
-The obtained noise from the calibration was used as noise for the sensormod model. This yields a model that is close to the real life results, since it contains noise with the same parameters as measured. 
+%\subsection{Experiments}
+%The obtained noise from the calibration was used as noise for the sensormod model. This yields a model that is close to the real life %results, since it contains noise with the same parameters as measured. 
 
 \subsection{Configuration analysis}
+In order to determine which of the microphone configurations is better, a configuration analysis is applied. This can be done in two different ways, the first one being Non-linear Least Squares (NLS), the second Cramér-Rao Lower Bound (CRLB). The CRLB approach is used here. The result of this on the first configuration (Figure 1) gives a plot with a clear minimum which indicates a good configuration, shown in Figure 4.\\
+\begin{figure}
+\begin{center}
+  \includegraphics[width=\textwidth]{crlb_1.png}
+  \caption{Cramér-Rao Lower Bound configuration 1.}
+  \end{center}
+\end{figure}
+The result of this on the second configuration (Figure 2) gives a plot (Figure 5) with no distinct minimum which indicates a bad configuration. This configuration could be a bit better in hindsight, since it's virtually useless as it stands right now. It could be improved  for example by positioning the microphones around a corner.
+\begin{figure}
+\begin{center}
+  \includegraphics[width=\textwidth]{crlb_2.png}
+  \caption{Cramér-Rao Lower Bound configuration 2.}
+  \end{center}
+\end{figure}
+
 
 \subsection{Localisation}
 The localisation of the robot was done in two different ways, one using a TDOA approach, and one using NLS using Gauss-Newton.
